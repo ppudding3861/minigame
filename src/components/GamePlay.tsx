@@ -112,7 +112,6 @@ const GamePlay: React.FC<GamePlayProps> = ({
     
     target.style.opacity = '0.5';
     target.style.transform = 'scale(1.05)';
-    e.preventDefault();
   }, [isTouchDevice]);
 
   const handleTouchEnd = useCallback((e: TouchEvent<HTMLImageElement>) => {
