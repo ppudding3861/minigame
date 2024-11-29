@@ -1,4 +1,4 @@
-// src/components/ImageUpload.tsx
+// src/components/mini_components/ImageUpload.tsx
 import React from 'react';
 
 interface ImageUploadProps {
@@ -22,20 +22,24 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   };
 
   return (
-    <div className="upload-section">
+    <div className="max-w-[500px] mx-auto bg-white p-[2vw] rounded-lg shadow-md">
       <input
         type="file"
         accept="image/*"
         onChange={handleImageChange}
-        className="file-input"
+        className="w-full mb-[1.5vw]"
       />
       {preview && (
-        <img src={preview} alt="Preview" className="preview-image" />
+        <img 
+          src={preview} 
+          alt="Preview" 
+          className="w-full h-auto mb-[1.5vw] rounded"
+        />
       )}
       <button
         onClick={onStartGame}
         disabled={disabled}
-        className="start-button"
+        className="w-full p-[1vw] bg-green-500 text-white border-none rounded cursor-pointer text-[calc(0.8rem+0.5vw)] hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
       >
         게임 시작
       </button>
