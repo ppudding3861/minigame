@@ -1,16 +1,18 @@
+// src/components/GamePlay.tsx
+
 import React, { DragEvent, TouchEvent, useState, useCallback } from 'react';
 import PuzzlePieces from "./PuzzlePieces";
 import PuzzleBoard from "./PuzzleBoard";
 import { PuzzlePiece } from "../types/puzzle";
 
 interface GamePlayProps {
-    pieces: PuzzlePiece[];
-    preview: string;
-    board: (PuzzlePiece | null)[];
-    setPieces: React.Dispatch<React.SetStateAction<PuzzlePiece[]>>;
-    setBoard: React.Dispatch<React.SetStateAction<(PuzzlePiece | null)[]>>;
-    checkCompletion: (board: (PuzzlePiece | null)[]) => void;
-  }
+  pieces: PuzzlePiece[];
+  preview: string;
+  board: (PuzzlePiece | null)[];
+  setPieces: React.Dispatch<React.SetStateAction<PuzzlePiece[]>>;
+  setBoard: React.Dispatch<React.SetStateAction<(PuzzlePiece | null)[]>>;
+  checkCompletion: (board: (PuzzlePiece | null)[]) => void;
+}
 
 const GamePlay: React.FC<GamePlayProps> = ({
  pieces,
@@ -24,27 +26,24 @@ const GamePlay: React.FC<GamePlayProps> = ({
  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
  const handlePieceMovement = useCallback((piece: PuzzlePiece, index: number | null) => {
-    if (index !== null) {
-      // 보드의 특정 위치로 이동
-      setBoard(prev => {
-        const newBoard = [...prev];
-        const existingPiece = newBoard[index];
-        
-        if (existingPiece) {
-          setPieces(prev => [...prev, existingPiece]);
-        }
-        
-        newBoard[index] = piece;
-        checkCompletion(newBoard); // newBoard가 생성된 후에 호출
-        return newBoard;
-      });
-      
-      setPieces(prev => prev.filter(p => p.id !== piece.id));
-    } else {
-      // pieces 배열로 이동
-      setPieces(prev => [...prev, piece]);
-    }
-  }, [board, setPieces, setBoard, checkCompletion]);
+   if (index !== null) {
+     // 보드의 특정 위치로 이동
+     const newBoard = [...board];
+     const existingPiece = newBoard[index];
+     
+     if (existingPiece) {
+       setPieces(prev => [...prev, existingPiece]);
+     }
+     
+     newBoard[index] = piece;
+     setBoard(newBoard);
+     setPieces(prev => prev.filter(p => p.id !== piece.id));
+     checkCompletion(newBoard);
+   } else {
+     // pieces 배열로 이동
+     setPieces(prev => [...prev, piece]);
+   }
+ }, [board, setPieces, setBoard, checkCompletion]);
 
  // 드래그 관련 핸들러
  const handleDragStart = useCallback((e: DragEvent<HTMLImageElement>, piece: PuzzlePiece) => {

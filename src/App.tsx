@@ -1,8 +1,8 @@
 import React from 'react';
 import "./App.css";
-import ImageUpload from "../src/components/ImageUpload";
-import GamePlay from "../src/components/GamePlay";
-import { usePuzzleGame } from "../src/hooks/usePuzzleGame";
+import ImageUpload from "./components/ImageUpload";
+import GamePlay from "./components/GamePlay";
+import { usePuzzleGame } from "./hooks/usePuzzleGame";
 
 const App: React.FC = () => {
   const {
@@ -19,8 +19,8 @@ const App: React.FC = () => {
   } = usePuzzleGame();
 
   return (
-    <div className="game-container">
-      <h1>퍼즐 게임</h1>
+    <div className="game-container" role="main" aria-label="퍼즐 게임 컨테이너">
+      <h1>{isGameStarted ? "퍼즐 게임 시작!" : "이미지 업로드"}</h1>
       {!isGameStarted ? (
         <ImageUpload
           onImageUpload={handleImageUpload}
@@ -34,7 +34,7 @@ const App: React.FC = () => {
           preview={preview}
           board={board}
           setPieces={setPieces}
-          setBoard={setBoard}
+          setBoard={setBoard} // 그대로 전달
           checkCompletion={checkCompletion}
         />
       )}

@@ -1,4 +1,3 @@
-// src/components/PuzzlePieces.tsx
 import React, { DragEvent, TouchEvent } from 'react';
 import { PuzzlePiece } from '../types/puzzle';
 
@@ -19,26 +18,28 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = React.memo(({
 }) => {
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-  const renderPuzzlePiece = (piece: PuzzlePiece) => {
-    const pieceEventHandlers = {
-      onDragStart: isTouchDevice ? undefined : (e: DragEvent<HTMLImageElement>) => onDragStart(e, piece),
-      onDragEnd: isTouchDevice ? undefined : onDragEnd,
-      onTouchStart: (e: TouchEvent<HTMLImageElement>) => onTouchStart(e, piece),
-      onTouchEnd
-    };
-
-    return (
-      <img
-        key={piece.id}
-        src={piece.src}
-        alt={`Piece ${piece.id}`}
-        loading="lazy"
-        draggable={!isTouchDevice}
-        className="puzzle-piece"
-        {...pieceEventHandlers}
-      />
-    );
+  const handleDragStart = (e: DragEvent<HTMLImageElement>, piece: PuzzlePiece) => {
+    if (!isTouchDevice) onDragStart(e, piece);
   };
+
+  const handleDragEnd = (e: DragEvent<HTMLElement>) => {
+    if (!isTouchDevice) onDragEnd(e);
+  };
+
+  const renderPuzzlePiece = (piece: PuzzlePiece) => (
+    <img
+      key={piece.id}
+      src={piece.src}
+      alt={`퍼즐 조각 ${piece.id}`}
+      loading="lazy"
+      draggable={!isTouchDevice}
+      className="puzzle-piece"
+      onDragStart={(e) => handleDragStart(e, piece)}
+      onDragEnd={handleDragEnd}
+      onTouchStart={(e) => onTouchStart(e, piece)}
+      onTouchEnd={onTouchEnd}
+    />
+  );
 
   return (
     <div className="puzzle-pieces" role="region" aria-label="퍼즐 조각 영역">
@@ -47,12 +48,6 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = React.memo(({
         className="pieces-grid"
         role="grid"
         aria-labelledby="pieces-title"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-          gap: '1rem',
-          padding: '1rem'
-        }}
       >
         {pieces.map(renderPuzzlePiece)}
       </div>
