@@ -1,4 +1,4 @@
-import React, { DragEvent, TouchEvent } from 'react';
+import React, { DragEvent, TouchEvent, useMemo } from 'react';
 import { PuzzlePiece } from '../types/puzzle';
 
 interface PuzzlePiecesProps {
@@ -17,6 +17,16 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = React.memo(({
   onTouchEnd,
 }) => {
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  // 퍼즐 조각을 랜덤하게 섞는 함수
+  const shuffledPieces = useMemo(() => {
+    const shuffled = [...pieces];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, [pieces]); // pieces가 변경될 때만 재실행
 
   const handleDragStart = (e: DragEvent<HTMLImageElement>, piece: PuzzlePiece) => {
     if (!isTouchDevice) onDragStart(e, piece);
@@ -49,7 +59,7 @@ const PuzzlePieces: React.FC<PuzzlePiecesProps> = React.memo(({
         role="grid"
         aria-labelledby="pieces-title"
       >
-        {pieces.map(renderPuzzlePiece)}
+        {shuffledPieces.map(renderPuzzlePiece)}
       </div>
     </div>
   );

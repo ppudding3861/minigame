@@ -1,42 +1,52 @@
 .game-container {
   width: 90vw;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2vw;
+  padding: 1vw;
   min-width: 320px;
+  height: 95vh; /* 전체 높이 제한 */
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
   text-align: center;
   color: #333;
-  margin-bottom: 2vw;
-  font-size: calc(1.5rem + 1vw);
+  margin-bottom: 1vw;
+  font-size: calc(1.2rem + 0.5vw);
+}
+
+h2 {
+  margin: 0 0 0.5vw 0;
+  font-size: 1rem;
 }
 
 .game-play-container {
   display: flex;
-  gap: 2vw;
+  gap: 1vw;
   width: 100%;
+  flex: 1;
 }
 
 .left-section {
   width: 30%;
   display: flex;
   flex-direction: column;
-  gap: 1.5vw;
+  gap: 1vw;
+  height: 100%;
 }
 
 .original-image {
   width: 100%;
   background: white;
-  padding: 1.5vw;
+  padding: 0.5vw;
   border-radius: 0.5vw;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 45%;
 }
 
 .original-image img {
   width: 100%;
-  aspect-ratio: 460/940;
+  height: calc(100% - 30px); /* h2 태그 높이 고려 */
   object-fit: contain;
   border-radius: 0.4vw;
 }
@@ -44,9 +54,9 @@ h1 {
 .puzzle-pieces {
   width: 100%;
   background: white;
-  padding: 1.5vw;
+  padding: 0.5vw;
   border-radius: 0.5vw;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 55%;
 }
 
 .pieces-grid {
@@ -54,22 +64,31 @@ h1 {
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5vw;
   width: 100%;
-  aspect-ratio: 520/940;
+  align-content: start; /* 상단 정렬로 변경 */
 }
 
-.puzzle-piece,
-.placed-piece img {
+.puzzle-piece {
   width: 100%;
-  aspect-ratio: 520/940;
+  aspect-ratio: 1/1.8; /* 고정된 비율 설정 */
   object-fit: cover;
   border-radius: 0.4vw;
-  transition: transform 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 200px; /* 최대 높이 제한 */
+}
+
+.placed-piece img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .puzzle-piece {
   cursor: grab;
   user-select: none;
+}
+
+.placed-piece {
+  width: 100%;
+  height: 100%;
 }
 
 .puzzle-piece:active,
@@ -86,36 +105,35 @@ h1 {
 .puzzle-board {
   width: 70%;
   background: white;
-  padding: 2vw;
+  padding: 0.5vw; /* 패딩 줄임 */
   border-radius: 0.5vw;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .board-grid {
-  width: 100%;
-  max-width: 520px;
-  aspect-ratio: 520/940;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.4vw;
-  background: #f5f5f5;
-  padding: 1vw;
-  border-radius: 0.5vw;
-  margin: 0 auto;
+  gap: 1px;
+  padding: 1px;
+  width: 100%;
+  max-width: 400px;
+  align-content: start;
+  background: #ddd;
+  aspect-ratio: 1/1.8; /* 전체 보드의 비율 설정 */
 }
 
 .board-cell {
   width: 100%;
-  aspect-ratio: 520/940;
+  aspect-ratio: 1/1.8;
   background: white;
-  border: 2px dashed #ddd;
-  border-radius: 0.4vw;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  user-select: none;
-  position: relative;
+  margin: 0;
+  border: none;
+  overflow: hidden; /* 이미지가 넘치지 않도록 설정 */
 }
 
 .board-cell img {
